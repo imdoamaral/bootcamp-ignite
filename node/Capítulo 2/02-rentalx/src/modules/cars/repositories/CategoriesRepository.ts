@@ -7,8 +7,20 @@ import {
 class CategoriesRepository implements ICategoriesRepository {
   private categories: Category[];
 
-  constructor() {
+  private static INSTANCE: CategoriesRepository;
+
+  // O private não deixa chamar o construtor da classe
+  private constructor() {
     this.categories = [];
+  }
+
+  // Singleton = criar apenas uma instância de uma classe, que vai ser uma instância global.
+  public static getInstace(): CategoriesRepository {
+    if (!CategoriesRepository.INSTANCE) {
+      CategoriesRepository.INSTANCE = new CategoriesRepository();
+    }
+
+    return CategoriesRepository.INSTANCE;
   }
 
   create({ name, description }: ICreateCategoryDTO): void {
